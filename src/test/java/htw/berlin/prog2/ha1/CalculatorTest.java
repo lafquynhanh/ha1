@@ -90,5 +90,27 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+
+    @Test
+    @DisplayName ("Should display 0 when digits are deleted")
+    void testDigitsAreDeleted() {
+        Calculator calc = new Calculator();
+        //Eingabe
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(2);
+        calc.pressDigitKey(3);
+
+        // sicherstellen, dass jetzt 0 nicht steht
+        assertEquals("123", calc.readScreen());
+
+        // alles löschen
+        calc.pressClearKey();
+
+        // Erwartung
+        assertEquals("0", calc.readScreen());
+
+
+    }
+
 }
 
