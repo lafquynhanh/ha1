@@ -109,8 +109,44 @@ class CalculatorTest {
         // Erwartung
         assertEquals("0", calc.readScreen());
 
+    }
+
+    @Test
+    @DisplayName ("Should display only 9 digits")
+    void testScreensize() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(8);
+        calc.pressDigitKey(7);
+        calc.pressDigitKey(6);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(9);
+
+        String expected = "987699999";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual);
 
     }
 
+    @Test
+    @DisplayName ("Should only delete the current digit when click once on CE ")
+    void testDeleteLastDigit() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(1);
+        calc.pressClearKey();
+        calc.pressEqualsKey();
+
+        String expected = "5";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual);
+    }
 }
 
