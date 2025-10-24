@@ -31,9 +31,15 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = ""; //
+        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
-        screen = screen + digit;
+        // nur hinzufügen, wenn noch unter 9 Ziffern
+        if (screen.length() < 9) {
+            screen = screen + digit;
+        }
+
+
+
     }
 
     /**
@@ -44,6 +50,7 @@ public class Calculator {
      * Werte sowie der aktuelle Operationsmodus zurückgesetzt, so dass der Rechner wieder
      * im Ursprungszustand ist.
      */
+    // 1 fehler hier, wenn man C drückt, löscht es alles. Stattdessen bspw. 1+3, C, 4 =5, zeigt es 0
     public void pressClearKey() {
         screen = "0";
         latestOperation = "";
