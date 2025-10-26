@@ -50,11 +50,17 @@ public class Calculator {
      * Werte sowie der aktuelle Operationsmodus zurückgesetzt, so dass der Rechner wieder
      * im Ursprungszustand ist.
      */
-    // 1 fehler hier, wenn man C drückt, löscht es alles. Stattdessen bspw. 1+3, C, 4 =5, zeigt es 0
     public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
+        // Wenn eine Operation läuft → nur Eingabe löschen
+        if (!latestOperation.isEmpty()) {
+            screen = "0";
+        } else {
+            // Wenn keine Operation läuft → alles löschen
+            screen = "0";
+            latestValue = 0.0;
+            latestOperation = "";
+        }
+
     }
 
     /**
@@ -67,7 +73,26 @@ public class Calculator {
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
-        latestValue = Double.parseDouble(screen);
+      //  latestValue = Double.parseDouble(screen);
+        //  latestOperation = operation;
+        // Wenn schon eine Operation läuft → Zwischenergebnis berechnen
+        if (!latestOperation.isEmpty()) {
+            double currentValue = Double.parseDouble(screen);
+            latestValue = switch (latestOperation) {
+                case "+" -> latestValue + currentValue;
+                case "-" -> latestValue - currentValue;
+                case "x" -> latestValue * currentValue;
+                case "/" -> latestValue / currentValue;
+                default -> latestValue;
+            };
+            screen = Double.toString(latestValue);
+            if (screen.endsWith(".0")) screen = screen.substring(0, screen.length() - 2);
+        } else {
+            // Falls noch keine Operation läuft, aktuelle Zahl speichern
+            latestValue = Double.parseDouble(screen);
+        }
+
+        // Neue Operation setzen
         latestOperation = operation;
     }
 
